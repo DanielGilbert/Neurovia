@@ -101,12 +101,16 @@ void GameRender() {
             DrawAseprite(sprites[GROUND], 1, tile.x * TILE_WIDTH, tile.y * TILE_HEIGHT, RAYWHITE);
         }
     }
+    DrawAseprite(sprites[HUMAN], 1, 8 * TILE_WIDTH, 12 * TILE_HEIGHT, SKYBLUE);
 
-    DrawText("This is a test!", 20*TILE_WIDTH, 1*TILE_HEIGHT, 16, PINK);
-    DrawAseprite(sprites[HUMAN], 1, 8*TILE_WIDTH, 12*TILE_HEIGHT, SKYBLUE);
-
-    DrawFPS(20 * TILE_WIDTH, 0*TILE_WIDTH);
     EndMode2D();
+
+    DrawRectangle(5,5,330,120,Fade(SKYBLUE, 0.5f));
+    DrawRectangleLines(5,5,330,120,BLUE);
+
+    DrawFPS(15,50);
+    DrawText(TextFormat("Camera Target: (%06.2f, %06.2f)", camera.target.x, camera.target.y), 15, 10, 14, YELLOW);
+    DrawText(TextFormat("Camera Zoom: %06.2f", camera.zoom), 15, 30, 14, YELLOW);
 }
 
 void GameShutdown() {
