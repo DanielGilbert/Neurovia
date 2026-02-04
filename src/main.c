@@ -32,6 +32,8 @@ typedef struct {
 
 sTile world[WORLD_WIDTH][WORLD_HEIGHT];
 
+Camera2D camera = { 0 };
+
 int main(void)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
@@ -69,13 +71,28 @@ void GameStartup() {
             };
         }
     }
+
+    camera.target = (Vector2){ 0,0 };
+    camera.offset = (Vector2){ (float)screenWidth / 2, (float)screenHeight / 2};
+    camera.rotation = 0.0f;
+    camera.zoom = 3.0f;
 }
 
 void GameUpdate() {
+    float wheel = GetMouseWheelMove();
+    if (wheel != 0) {
+        const float zoomIncrement = 0.125f;
+        camera.zoom += (wheel * zoomIncrement);
+        if (camera.zoom < 3.0f) camera.zoom = 3.0f;
+        if (camera.zoom > 8.0f) camera.zoom = 8.0f;
+    }
 
+    camera.target = (Vector2){0,0};
 }
 
 void GameRender() {
+    BeginMode2D(camera);
+
     sTile tile;
 
     for (int i = 0; i < WORLD_WIDTH; i++) {
@@ -89,6 +106,7 @@ void GameRender() {
     DrawAseprite(sprites[HUMAN], 1, 8*TILE_WIDTH, 12*TILE_HEIGHT, SKYBLUE);
 
     DrawFPS(20 * TILE_WIDTH, 0*TILE_WIDTH);
+    EndMode2D();
 }
 
 void GameShutdown() {
