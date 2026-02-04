@@ -3,8 +3,8 @@
 #define RAYLIB_ASEPRITE_IMPLEMENTATION
 #include "raylib-aseprite.h"
 
-#define TILE_HEIGHT 8
-#define TILE_WIDTH 8
+#define TILE_HEIGHT 16
+#define TILE_WIDTH 16
 
 const int screenHeight = 1080;
 const int screenWidth = 1920;
@@ -43,10 +43,6 @@ int main(void)
         GameUpdate();
         ClearBackground(BLACK);
         BeginDrawing();
-        DrawFPS(10,10);
-        DrawText("This is a test!", 10, 30, 22, PINK);
-        DrawAseprite(sprites[HUMAN], 1, 100, 100, WHITE);
-        DrawAseprite(sprites[GROUND], 1, 140, 100, WHITE);
         GameRender();
         EndDrawing();
     }
@@ -88,6 +84,11 @@ void GameRender() {
             DrawAseprite(sprites[GROUND], 1, tile.x * TILE_WIDTH, tile.y * TILE_HEIGHT, RAYWHITE);
         }
     }
+
+    DrawText("This is a test!", 20*TILE_WIDTH, 1*TILE_HEIGHT, 16, PINK);
+    DrawAseprite(sprites[HUMAN], 1, 8*TILE_WIDTH, 12*TILE_HEIGHT, SKYBLUE);
+
+    DrawFPS(20 * TILE_WIDTH, 0*TILE_WIDTH);
 }
 
 void GameShutdown() {
