@@ -30,6 +30,13 @@ typedef struct {
     int y;
 } sTile;
 
+typedef struct {
+    int x;
+    int y;
+} sEntity;
+
+sEntity player;
+
 sTile world[WORLD_WIDTH][WORLD_HEIGHT];
 
 Camera2D camera = { 0 };
@@ -72,7 +79,13 @@ void GameStartup() {
         }
     }
 
-    camera.target = (Vector2){ 0,0 };
+    // starting position of player
+    player = (sEntity){
+        .x = TILE_WIDTH * 3,
+        .y = TILE_HEIGHT * 3
+    };
+
+    camera.target = (Vector2){ player.x, player.y };
     camera.offset = (Vector2){ (float)screenWidth / 2, (float)screenHeight / 2};
     camera.rotation = 0.0f;
     camera.zoom = 3.0f;
@@ -87,7 +100,7 @@ void GameUpdate() {
         if (camera.zoom > 8.0f) camera.zoom = 8.0f;
     }
 
-    camera.target = (Vector2){0,0};
+    camera.target = (Vector2){ player.x, player.y };
 }
 
 void GameRender() {
@@ -101,7 +114,8 @@ void GameRender() {
             DrawAseprite(sprites[GROUND], 1, tile.x * TILE_WIDTH, tile.y * TILE_HEIGHT, RAYWHITE);
         }
     }
-    DrawAseprite(sprites[HUMAN], 1, 8 * TILE_WIDTH, 12 * TILE_HEIGHT, SKYBLUE);
+
+    DrawAseprite(sprites[HUMAN], 1, camera.target.x, camera.target.y, SKYBLUE);
 
     EndMode2D();
 
